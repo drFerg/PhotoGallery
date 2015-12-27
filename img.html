@@ -1,0 +1,44 @@
+<html>
+<head>
+  <style>
+    .b-lazy {
+      -webkit-transition: opacity 500ms ease-in-out;
+      -moz-transition: opacity 500ms ease-in-out;
+      -o-transition: opacity 500ms ease-in-out;
+      transition: opacity 500ms ease-in-out;
+      max-width: 100%;
+      opacity: 0;
+    }
+    .b-lazy.b-loaded {
+       opacity: 1;
+    }
+    </style>
+</head>
+{{range .}}
+<img class="b-lazy"
+         height="240"
+         width="320"
+         src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+         data-src="/img/{{.Title}}"
+         alt="alt-text"
+    />
+{{ end }}
+</html>
+<script src="/static/blazy.min.js"></script>
+  <script>
+  var bLazy = new Blazy({
+      breakpoints: [{
+    width: 420 // Max-width
+        , src: 'data-src-small'
+}]
+    , success: function(element){
+    setTimeout(function(){
+  // We want to remove the loader gif now.
+  // First we find the parent container
+  // then we remove the "loading" class which holds the loader image
+  var parent = element.parentNode;
+  parent.className = parent.className.replace(/\bloading\b/,'');
+    }, 200);
+      }
+ });
+  </script>
