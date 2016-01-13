@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <link href="http://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet">
+    <link href="/static/css/videojs-sublime-skin.css" rel="stylesheet">
+
+    <!-- If you'd like to support IE8 -->
+    <script src="http://vjs.zencdn.net/ie8/1.1.1/videojs-ie8.min.js"></script>
+
+
+<!-- Add mousewheel plugin (this is optional) -->
+
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="/static/css/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet" href="/static/js/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
+
+<link rel="stylesheet" href="/static/js/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
+<style>
+
+
+body {
+padding-top: 4em;
+}
+.grow > .card-img {  }
+.grow > .card-img:hover { }
+
+.background {
+  background:#EEE none repeat scroll 0% 0%;
+}
+.selected{
+
+   /*box-shadow:0px 12px 22px 1px #333;*/
+   transform: scale(0.90);
+}
+    .card-list {
+      /*display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+	    flex-flow: row wrap;*/
+      /*height: 300px;*/
+    }
+    .grid-sizer,
+    .card {
+      width: 25%;
+      padding: 2px;
+/* Set height to only load a few images a first,
+otherwise boxes appear small and millions load*/
+      height: 220px;
+
+      /*display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+
+      flex: auto;*/
+      /*width: 300px;*/
+    }
+    .card-img {
+      width: 100%;
+      height: auto;
+    }
+
+     video, .vjs_video_3-dimensions, .video-js{
+      width:100%;
+      height: 220px;
+    }
+
+
+  .b-lazy.b-loaded {
+     /*opacity: 1;*/
+     transition: all .2s ease-in-out;
+  }
+
+  .no-select {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+  }
+
+  .smaller {
+    font-size: 55%;
+    font-weight: 400;
+    line-height: 1;
+    color: #777;
+  }
+
+}
+
+
+    </style>
+
+    <style type="text/css">
+.headroom {position: fixed;top: 0;left: 0;right: 0;transition: all .2s ease-in-out;}
+.headroom--unpinned {top: -100px;}
+.headroom--pinned {top: 0;}
+
+
+</style>
+</head>
+<body>
+  <nav id="header" class="navbar navbar-default navbar-fixed-top">
+    <a class="navbar-brand" href="#">Gallery</a>
+  </nav>
+
+<div class="container-fluid unresolved">
+  {{% range $index, $set := .Sets %}}
+  <div class="folder-info">
+    <h2>{{% $set.Name %}} <span class="smaller">{{% $set.DateString %}}</span></h2>
+  </div>
+    <div class="card-list">
+      <div class="grid-sizer"></div>
+
+      {{% range $set.Images %}}
+      {{% if eq .Type ".JPG" ".jpg" %}}
+      <div class="card card-inverse no-select" id="{{% .Index %}}">
+        <a class="fancybox" rel="group" href="/img/{{% $set.Path %}}{{% .Name %}}{{% .Type %}}">
+          <img class="b-lazy card-img"
+                 data-src="/thumb/{{% $set.Path %}}{{% .Name %}}{{% .Type %}}"
+                 alt="{{% .Name %}}" />
+         </a>
+       </div>
+       {{% else if eq .Type ".mp4" ".MP4" %}}
+       <!-- <div class="card card-inverse no-select">
+       <video class="video-js vjs-default-skin card-video" data-setup='{}'  controls preload="none" poster="/thumb/{{% $set.Path %}}{{% .Name %}}.jpg">
+         <source src="/video/{{% $set.Path %}}{{% .Name %}}{{% .Type %}}" type="video/mp4">
+          Your browser does not support the video tag.
+           </video>
+         </div> -->
+         <!--  End of if -->
+       {{% end %}}
+       <!-- End of range images -->
+       {{% end %}}
+
+     </div>
+     <!-- End of range folder-info -->
+     {{% end %}}
+</div>
+
+<!-- Scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://vjs.zencdn.net/5.4.4/video.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="/static/js/isotope.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/0.6.4/jquery.lazy.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/headroom/0.7.0/headroom.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/headroom/0.7.0/jQuery.headroom.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.mousewheel-3.0.6.pack.js"></script>
+<script type="text/javascript" src="/static/js/jquery.fancybox.pack.js?v=2.1.5"></script>
+<script type="text/javascript" src="/static/js/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="/static/js/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<script type="text/javascript" src="/static/js/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+  <script>
+  // videojs('vid');
+//   videojs(document.getElementsByClassName('video-js')[0], {}, function() {
+//   // You can grab an element by class if you'd like, just make sure
+//   // if it's an array that you pick one (here we chose the first).
+// });
+  $('img').click(function(){
+   $('.selected').parent().removeClass('background');
+   $('.selected').removeClass('selected'); // removes the previous selected class
+   $(this).addClass('selected'); // adds the class to the clicked image
+   $(this).parent().addClass('background');
+});
+
+  $("#header").headroom();
+  var $grid = $('.card-list').isotope({
+    // set itemSelector so .grid-sizer is not used in layout
+    itemSelector: '.card',
+    percentPosition: true,
+    masonry: {
+      // use element for option
+      columnWidth: '.grid-sizer'
+    }
+});
+
+$(function() {
+        $('.b-lazy').lazy({// your configuration goes here
+        scrollDirection: 'vertical',
+        effect: "fadeIn",
+          effectTime: 500,
+          threshold: 0,
+        visibleOnly: true,
+        skip_invisible: false,
+        onError: function(element) {
+            console.log('error loading ' + element.data('src'));
+        },
+        afterLoad: function(element) {
+            $(".card").height("auto");
+            $grid.isotope('layout');
+        },
+    });
+});
+//   var bLazy = new Blazy({
+//     offset: 250,
+//       breakpoints: [{
+//         src: 'data-src-small'
+// }]
+//     , success: function(element){
+//     setTimeout(function(){
+//   // We want to remove the loader gif now.
+//   // First we find the parent container
+//   // then we remove the "loading" class which holds the loader image
+//   var parent = element.parentNode;
+//   parent.className = parent.className.replace(/\bloading\b/,'');
+// }, 100);
+//     $grid.isotope('layout');
+//       }
+//  });
+
+$(document).ready(function() {
+		$(".fancybox").fancybox({
+  		openEffect	: 'elastic',
+  		closeEffect	: 'elastic',
+      nextEffect : 'elastic',
+      prevEffect : 'elastic',
+      padding : 0,
+      afterLoad: function(current, previous) {
+        console.log("#" + current.index)
+        $('html, body').animate({
+        scrollTop: $("#" + current.index).offset().top
+    }, 2000);
+      }
+
+    });
+	});
+  </script>
+</body>
+</html>
+
+
+<!--        <div class="card-img-overlay " style="position:relative;">
+        <h4 class="card-title">.Title </h4>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+      -->
